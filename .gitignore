@@ -5,8 +5,12 @@ yarn-debug.log*
 yarn-error.log*
 
 # Build outputs
+dist/
 build/
 out/
+*.js
+*.d.ts
+*.js.map
 
 # Keep TypeScript source files
 !src/**/*.ts
@@ -36,7 +40,6 @@ coverage/
 .cache/
 .npm/
 .eslintcache
-.ropeproject
 
 # Version files (generated)
 .version
