@@ -14,12 +14,12 @@
 
 ## 📦 Supported Languages and Files
 
-| 言語    | 更新されるファイル                          |
+| language    | The file will be updated                          |
 | ------- | ------------------------------------------- |
 | Python  | `pyproject.toml`, `setup.py`, `__init__.py` |
 | Node.js | `package.json`, `package-lock.json`         |
 | Rust    | `Cargo.toml`                                |
-| Go      | `version.go` (自動生成)                     |
+| Go      | `version.go` (auto generate)                     |
 | Java    | `pom.xml`, `build.gradle`                   |
 | C#      | `*.csproj`                                  |
 | Ruby    | `*.gemspec`, `version.rb`                   |
