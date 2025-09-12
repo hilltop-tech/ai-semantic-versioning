@@ -36,12 +36,22 @@ async function analyzeWithAI(
   const prompt = `Analyze these git commit messages and determine the appropriate semantic version bump.
 
 Semantic Versioning Rules:
-- MAJOR (x.0.0): Breaking changes, incompatible API changes
-- MINOR (0.x.0): New features, backwards compatible functionality
-- PATCH (0.0.x): Bug fixes, minor improvements, documentation
+- MAJOR (x.0.0): Breaking changes, incompatible API changes to THIS project's public API
+- MINOR (0.x.0): New features, backwards compatible functionality additions
+- PATCH (0.0.x): Bug fixes, minor improvements, documentation, dependency updates
+
+Important Notes:
+- Dependency updates (including major version updates of dependencies) should be treated as PATCH unless they cause breaking changes to THIS project's API
+- Examples of dependency updates that are PATCH:
+  * "chore(deps): bump axios from 0.x to 1.x"
+  * "Update React from v17 to v18"
+  * "Upgrade dependencies to latest versions"
+  * "chore: update package-lock.json"
+- Only mark as MAJOR if the project's own API has breaking changes for its users
+- Internal refactoring without API changes is PATCH, not MAJOR
 
 Conventional Commit Patterns to look for:
-- BREAKING CHANGE, !: Major version
+- BREAKING CHANGE, !: Major version (only if it affects this project's API)
 - feat, feature: Minor version
 - fix, bugfix, perf, refactor, style, docs, test, chore: Patch version
 
@@ -70,7 +80,7 @@ Response format:
       {
         role: 'system',
         content:
-          'You are a semantic versioning expert. Analyze commit messages and determine appropriate version bumps.'
+          'You are a semantic versioning expert. Analyze commit messages and determine appropriate version bumps. Remember that dependency updates (even major versions) are typically PATCH changes unless they break the project\'s own public API.'
       },
       {
         role: 'user',
