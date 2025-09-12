@@ -1,0 +1,56 @@
+name: 'AI Semantic Versioning'
+description: 'Automatically determine semantic version bumps using AI to analyze commit messages'
+author: 'HillTech'
+branding:
+  icon: 'tag'
+  color: 'blue'
+
+inputs:
+  GITHUB_TOKEN:
+    description: 'GitHub token for API access'
+    required: true
+  OPENAI_API_KEY:
+    description: 'OpenAI API key for AI analysis'
+    required: true
+  OPENAI_API_MODEL:
+    description: 'OpenAI model to use'
+    required: false
+    default: 'gpt-4o-mini'
+  force_version:
+    description: 'Force a specific version (optional)'
+    required: false
+    default: ''
+  create_release:
+    description: 'Create GitHub release'
+    required: false
+    default: 'true'
+  tag_prefix:
+    description: 'Prefix for version tags'
+    required: false
+    default: 'v'
+  update_files:
+    description: 'Update version files in the repository'
+    required: false
+    default: 'true'
+  commit_changes:
+    description: 'Commit version changes'
+    required: false
+    default: 'true'
+  push_changes:
+    description: 'Push changes and tags'
+    required: false
+    default: 'true'
+
+outputs:
+  version:
+    description: 'The new version number'
+  previous_version:
+    description: 'The previous version number'
+  bump_type:
+    description: 'The type of version bump (major, minor, patch)'
+  changelog:
+    description: 'Generated changelog for the release'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

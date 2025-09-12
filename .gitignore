@@ -1,0 +1,56 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+build/
+out/
+
+# Keep TypeScript source files
+!src/**/*.ts
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# Cache
+.cache/
+.npm/
+.eslintcache
+.ropeproject
+
+# Version files (generated)
+.version
+version_analysis.json
+
+# Python (from old scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+.venv/
+
+# Temporary
+tmp/
+temp/
