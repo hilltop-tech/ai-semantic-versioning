@@ -2,8 +2,6 @@
 
 🤖 Automatically determine semantic version bumps using AI to analyze your commit messages.
 
-🤖 Automatically determine semantic version bumps using AI to analyze your commit messages.
-
 ## 🌟 Features
 
 - **AI-Powered Analysis**: Uses OpenAI GPT to understand commit messages and determine appropriate version bumps
@@ -14,31 +12,29 @@
 
 ## 📦 Supported Languages and Files
 
-| language    | The file will be updated                          |
-| ------- | ------------------------------------------- |
-| Python  | `pyproject.toml`, `setup.py`, `__init__.py` |
-| Node.js | `package.json`, `package-lock.json`         |
-| Rust    | `Cargo.toml`                                |
-| Go      | `version.go` (auto generate)                     |
-| Java    | `pom.xml`, `build.gradle`                   |
-| C#      | `*.csproj`                                  |
-| Ruby    | `*.gemspec`, `version.rb`                   |
-| PHP     | `composer.json`                             |
-| Swift   | `Package.swift`                             |
+| language | The file will be updated                    |
+| -------- | ------------------------------------------- |
+| Python   | `pyproject.toml`, `setup.py`, `__init__.py` |
+| Node.js  | `package.json`, `package-lock.json`         |
+| Rust     | `Cargo.toml`                                |
+| Go       | `version.go` (auto generate)                |
+| Java     | `pom.xml`, `build.gradle`                   |
+| C#       | `*.csproj`                                  |
+| Ruby     | `*.gemspec`, `version.rb`                   |
+| PHP      | `composer.json`                             |
+| Swift    | `Package.swift`                             |
 
-LanguageUpdated Files-------------------------auto-generated
+## 🚀 Quick Start
 
-## 🚀 Quick StartQuick Start
+### 1. Set up GitHub Secrets
 
-### 1. Set up GitHub SecretsSecrets
+Add the following secret to your repository (Settings > Secrets and variables):
 
-Add the following secret to your repository (SettingsAdd the following secret to your repository (Settings > Secrets and variables)variables):
+- `OPENAI_API_KEY`: Your OpenAI API key (required)
 
-- `OPENAI_API_KEY`: Your OpenAI API key (required)API key (required)
+### 2. Create Workflow
 
-### 2. Create WorkflowCreate Workflow
-
-Create Create `.github/workflows/versioning.yml` in your repository in your repository:
+Create `.github/workflows/versioning.yml` in your repository:
 
 ```yaml
 name: Semantic Versioning
@@ -68,23 +64,6 @@ jobs:
           create_release: true # optional
           commit_changes: true # optional
           push_changes: true # optional
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: AI Semantic Versioning
-        uses: hilltech/svc-ai-actions@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_API_MODEL: 'gpt-4o-mini'  # optional
-          create_release: true              # optional
-          commit_changes: true              # optional
-          push_changes: true                # optional
 ```
 
 ## 📋 Versioning Rules
@@ -117,16 +96,16 @@ jobs:
 | `commit_changes`   | No       | `true`        | Commit version changes      |
 | `push_changes`     | No       | `true`        | Push changes and tags       |
 
-## 📤 'Action Outputs
+## 📤 Action Outputs
 
 | Output             | Description                                  |
 | ------------------ | -------------------------------------------- |
-| '`version`         | 'The 'new version number                     |
+| `version`          | The new version number                       |
 | `previous_version` | The previous version number                  |
 | `bump_type`        | The type of version bump (major/minor/patch) |
 | `changelog`        | Generated changelog for the release          |
 
-## 🔧 Manual 'Trigger
+## 🔧 Manual Trigger
 
 You can manually trigger the action from GitHub Actions UI:
 
@@ -168,30 +147,9 @@ BREAKING CHANGE: remove deprecated endpoints
 - Tag: `v2.0.0`
 - Auto-generated release notes
 
-## 📊⚙️ Action InputsAdvanced Configuration
+## ⚙️ Advanced Configuration
 
-| Input              | Required | Default       | Description                 |
-| ------------------ | -------- | ------------- | --------------------------- |
-| `GITHUB_TOKEN`     | Yes      | -             | GitHub token for API access |
-| `OPENAI_API_KEY`   | Yes      | -             | OpenAI API key              |
-| `OPENAI_API_MODEL` | No       | `gpt-4o-mini` | OpenAI model to use         |
-| `force_version`    | No       | -             | Force a specific version    |
-| `create_release`   | No       | `true`        | Create GitHub release       |
-| `tag_prefix`       | No       | `v`           | Prefix for version tags     |
-| `update_files`     | No       | `true`        | Update version files        |
-| `commit_changes`   | No       | `true`        | Commit version changes      |
-| `push_changes`     | No       | `true`        | Push changes and tags       |
-
-You can customize the behavior by creating `githubversioning.yml`:
-
-## 📤 Action Outputs
-
-| Output             | Description                                  |
-| ------------------ | -------------------------------------------- |
-| `version`          | The new version number                       |
-| `previous_version` | The previous version number                  |
-| `bump_type`        | The type of version bump (major/minor/patch) |
-| `changelog`        | Generated changelog for the release          |
+You can customize the behavior by creating `.github/versioning.yml`:
 
 ## 🛠️ Development
 
@@ -207,52 +165,6 @@ npm test
 
 # Format code
 npm run format
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-```yaml
-# AI Configuration
-ai:
-  model: 'gpt-4o-mini' # Model to use
-  enabled: true # Enable/disable AI analysis
-
-# Version Rules
-version_rules:
-  major_keywords:
-    - 'BREAKING CHANGE'
-  minor_keywords:
-    - 'feat:'
-  patch_keywords:
-    - 'fix:'
-
-# Release Settings
-release:
-  create_release: true
-  tag_prefix: 'v'
-```
-
-## 🛠️ Development
-
-```bash
-# Install dependencies
-npm install
-
-# Build the action
-npm run build
-
-# Run tests
-npm test
-
-# Format code
-npm run format
-
-# Lint code
-npm run lint
 ```
 
 ## 🤝 Contributing
