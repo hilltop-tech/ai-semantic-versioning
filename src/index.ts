@@ -1,5 +1,6 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
+import { execSync } from 'child_process';
 import { analyzeCommits } from './analyzer';
 import { updateVersionFiles } from './updater';
 import { createRelease } from './release';
@@ -71,8 +72,6 @@ async function run(): Promise<void> {
 
     // Commit and push changes
     if (shouldCommit && shouldUpdateFiles) {
-      const { execSync } = require('child_process');
-
       // Configure git
       execSync('git config --local user.email "action@github.com"');
       execSync('git config --local user.name "GitHub Action"');
