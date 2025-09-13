@@ -1,6 +1,6 @@
 {
   "name": "ai-semantic-versioning",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "AI-powered semantic versioning for GitHub Actions",
   "main": "dist/index.js",
   "scripts": {
