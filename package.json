@@ -25,7 +25,7 @@
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.1",
     "@octokit/rest": "^22.0.0",
-    "openai": "^4.56.0",
+    "openai": "^5.20.2",
     "semver": "^7.6.0",
     "simple-git": "^3.28.0",
     "toml": "^3.0.0",
