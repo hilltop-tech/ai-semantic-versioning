@@ -1,7 +1,11 @@
+/**
+ * Version file updater for multiple programming languages
+ */
+
 import * as fs from 'fs';
-import * as path from 'path';
 import * as core from '@actions/core';
 import * as toml from 'toml';
+import { findFiles as globFiles } from './utils/glob-helper';
 
 export async function updateVersionFiles(version: string): Promise<string[]> {
   const updatedFiles: string[] = [];
@@ -63,7 +67,7 @@ async function updateProjectFiles(projectType: string, version: string): Promise
 
   switch (projectType) {
     case 'python':
-      updatedFiles.push(...updatePythonFiles(version));
+      updatedFiles.push(...(await updatePythonFiles(version)));
       break;
     case 'nodejs':
       updatedFiles.push(...updateNodeFiles(version));
@@ -81,7 +85,7 @@ async function updateProjectFiles(projectType: string, version: string): Promise
       updatedFiles.push(...updateCSharpFiles(version));
       break;
     case 'ruby':
-      updatedFiles.push(...updateRubyFiles(version));
+      updatedFiles.push(...(await updateRubyFiles(version)));
       break;
     case 'php':
       updatedFiles.push(...updatePhpFiles(version));
@@ -94,7 +98,7 @@ async function updateProjectFiles(projectType: string, version: string): Promise
   return updatedFiles;
 }
 
-function updatePythonFiles(version: string): string[] {
+async function updatePythonFiles(version: string): Promise<string[]> {
   const updated: string[] = [];
 
   // pyproject.toml
@@ -110,7 +114,7 @@ function updatePythonFiles(version: string): string[] {
 
     // Convert back to TOML string
     const newContent = Object.entries(data)
-      .map(([key, value]) => `[${key}]\n${formatTomlSection(value)}`)
+      .map(([key, value]) => `[${key}]\n${formatTomlSection(value as Record<string, unknown>)}`)
       .join('\n');
 
     fs.writeFileSync('pyproject.toml', newContent);
@@ -126,10 +130,8 @@ function updatePythonFiles(version: string): string[] {
   }
 
   // __init__.py files
-  const initFiles = findFiles('**/__init__.py');
+  const initFiles = await globFiles('**/__init__.py');
   for (const file of initFiles) {
-    if (file.includes('node_modules') || file.includes('venv')) continue;
-
     const content = fs.readFileSync(file, 'utf-8');
     if (content.includes('__version__')) {
       const newContent = content.replace(
@@ -245,7 +247,7 @@ function updateCSharpFiles(version: string): string[] {
   return updated;
 }
 
-function updateRubyFiles(version: string): string[] {
+async function updateRubyFiles(version: string): Promise<string[]> {
   const updated: string[] = [];
 
   // .gemspec files
@@ -258,7 +260,7 @@ function updateRubyFiles(version: string): string[] {
   }
 
   // version.rb
-  const versionFiles = findFiles('**/version.rb');
+  const versionFiles = await globFiles('**/version.rb');
   for (const file of versionFiles) {
     let content = fs.readFileSync(file, 'utf-8');
     content = content.replace(/VERSION\s*=\s*["'][^"']+["']/, `VERSION = "${version}"`);
@@ -299,34 +301,11 @@ function updateGenericVersionFile(version: string): void {
   fs.writeFileSync('.version', version);
 }
 
-function findFiles(pattern: string): string[] {
-  // Simple file finder (you might want to use glob package for more complex patterns)
-  const files: string[] = [];
-  const walkDir = (dir: string) => {
-    const items = fs.readdirSync(dir);
-    for (const item of items) {
-      const fullPath = path.join(dir, item);
-      const stat = fs.statSync(fullPath);
-      if (stat.isDirectory() && !item.startsWith('.') && item !== 'node_modules') {
-        walkDir(fullPath);
-      } else if (stat.isFile() && fullPath.match(pattern.replace('**/', ''))) {
-        files.push(fullPath);
-      }
-    }
-  };
-
-  if (pattern.startsWith('**/')) {
-    walkDir('.');
-  }
-
-  return files;
-}
-
-function formatTomlSection(obj: any, indent: string = ''): string {
+function formatTomlSection(obj: Record<string, unknown>, indent: string = ''): string {
   return Object.entries(obj)
     .map(([key, value]) => {
-      if (typeof value === 'object' && !Array.isArray(value)) {
-        return `${indent}[${key}]\n${formatTomlSection(value, indent + '  ')}`;
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        return `${indent}[${key}]\n${formatTomlSection(value as Record<string, unknown>, indent + '  ')}`;
       }
       return `${indent}${key} = ${JSON.stringify(value)}`;
     })

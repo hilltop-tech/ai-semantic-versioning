@@ -1,0 +1,26 @@
+{
+  "entryPoints": ["src"],
+  "entryPointStrategy": "expand",
+  "out": "docs",
+  "exclude": [
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "node_modules"
+  ],
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": false,
+  "readme": "README.md",
+  "name": "AI Semantic Versioning",
+  "includeVersion": true,
+  "sort": ["source-order"],
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  },
+  "plugin": [],
+  "theme": "default",
+  "cleanOutputDir": true
+}
